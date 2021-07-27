@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.adoc": "asciidoc",
+        "string": "cpp"
+    }
+}

@@ -1,13 +1,46 @@
 #include <iostream>
-#include<vector>
-
+#include <memory>
+#include <vector>
+#include <string>
 using namespace std;
-int main(){
-	int vec[5]={1,2,3,4,5};
-	vector<int>arr(vec,vec+5);
-	vector<int>::iterator it;
-	it = arr.begin();
-	for (it; it != arr.end(); it++)
-	cout <<"the element is "<< *it << endl;;
-}	
 
+struct RValue {
+	RValue():sources("hello!!!"){}
+	RValue(RValue&& a) {
+		sources = std::move(a.sources);
+		cout<<"&& RValue"<<endl;
+	}
+
+	RValue(const RValue& a) {
+		sources = a.sources;
+		cout<<"& RValue"<<endl;
+	}
+
+	void operator=(const RValue&& a) {
+		sources = std::move(a.sources);
+		cout<<"&& =="<<endl;
+	}
+
+	void operator=(const RValue& a) {
+		sources = a.sources;
+		cout<<"& =="<<endl;
+	}
+
+	string sources;;
+};
+
+RValue get() {
+        RValue a;
+        cout << "return" << endl;
+	return a;
+}
+
+void put(RValue){}
+
+int main() {
+    RValue b;
+	RValue a = b;
+        cout<<"---------------"<<endl;
+	put(RValue());
+	return 0;
+}
