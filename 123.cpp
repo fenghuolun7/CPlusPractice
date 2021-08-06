@@ -1,12 +1,20 @@
 #include <iostream>
 #include <string>
+#include <memory>
 #include <exception>
 using namespace std;
 
-
+struct myDel
+{
+    void operator()(int *p) {
+        delete p;
+    }
+};
 
 int main(){
-    int a = 4;
-    int dp[a + 1][3] = {0};
-    cout << dp[2][2] << endl;
+std::unique_ptr<int, myDel> p6(new int);
+cout << &p6 << endl;
+
+std::unique_ptr<int, myDel> p6(new int, myDel());
+cout << &p6 << endl;
 }
